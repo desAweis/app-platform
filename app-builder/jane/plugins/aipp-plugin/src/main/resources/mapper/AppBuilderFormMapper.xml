@@ -110,6 +110,7 @@
         <if test="cond.name != null">
             and name LIKE '%' || #{cond.name} || '%'
         </if>
+        and id != 'a910a3d38a4549eda1112beee008419d'
         ORDER BY update_at DESC, create_at DESC
         <if test="cond.offset != null and cond.limit != null">
             LIMIT #{cond.limit} OFFSET #{cond.offset}
@@ -128,5 +129,6 @@
         <if test="cond.name != null">
             and name LIKE '%' || #{cond.name} || '%'
         </if>
+        and id != 'a910a3d38a4549eda1112beee008419d'
     </select>
 </mapper>
