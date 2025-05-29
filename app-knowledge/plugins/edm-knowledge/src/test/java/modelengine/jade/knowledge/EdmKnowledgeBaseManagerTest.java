@@ -76,8 +76,8 @@ public class EdmKnowledgeBaseManagerTest {
                                 "lxh-2",
                                 "description",
                                 "VECTOR",
-                                Timestamp.valueOf("2024-09-26 16:16:21.054")),
-                        tuple(1L, "lxh-k", "", "VECTOR", Timestamp.valueOf("2024-09-26 12:12:14.320")));
+                                Timestamp.valueOf("2024-09-26 08:16:21.054")),
+                        tuple(1L, "lxh-k", "", "VECTOR", Timestamp.valueOf("2024-09-26 04:12:14.320")));
     }
 
     @Test

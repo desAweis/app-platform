@@ -12,7 +12,7 @@ import modelengine.fit.task_new.po.MetaInstancePo;
 import java.util.List;
 
 /**
- * Meta 实例数据库 Mapper 类
+ * Meta 实例数据库 Mapper 类。
  *
  * @author 邬涨财
  * @since 2025-03-31
@@ -54,4 +54,20 @@ public interface MetaInstanceMapper {
      * @return 表示查询后的结果的 {@code long}
      */
     long count(MetaInstanceCondition cond);
+
+    /**
+     * 根据元数据实例唯一标识列表强制删除会话记录。
+     *
+     * @param ids 表示元数据实例唯一标识列表的 {@link List}{@code <}{@link String}{@code >}。
+     */
+    void forceDelete(List<String> ids);
+
+    /**
+     * 获取超期的元数据实例唯一标识列表。
+     *
+     * @param expiredDays 表示超期时间的 {@code int}。
+     * @param limit 表示查询条数的 {@code int}。
+     * @return 表示元数据实例的唯一标识列表的 {@link List}{@code <}{@link String}{@code >}。
+     */
+    List<String> getExpiredInstanceIds(int expiredDays, int limit);
 }

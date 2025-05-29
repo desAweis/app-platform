@@ -195,4 +195,28 @@ public interface AippLogMapper {
      * @param logIds 表示指定的历史记录 id 的 {@link List}{@code <}{@link Long}{@code >}。
      */
     void deleteInstanceLogs(@Param("logIds") List<Long> logIds);
+
+    /**
+     * 获取超期的调试对话记录唯一标识列表。
+     *
+     * @param expiredDays 表示超期时间的 {@code int}。
+     * @param limit 表示查询条数的 {@code int}。
+     * @return 表示历史会话记录的id列表的 {@link List}{@code <}{@link Long}{@code >}。
+     */
+    List<Long> getExpireInstanceLogIds(String aippType, int expiredDays, int limit);
+
+    /**
+     * 根据实例唯一标识列表强制删除会话记录。
+     *
+     * @param logIds 表示会话实例id列表的 {@link List}{@code <}{@link Long}{@code >}。
+     */
+    void forceDeleteInstanceLogsByIds(List<Long> logIds);
+
+    /**
+     * 根据日志唯一标识列表查询会话历史记录。
+     *
+     * @param logIds 标识日志唯一标识列表的 {@link List}{@code <}{@link Long}{@code >}。
+     * @return 表示实例历史记录列表的 {@link List}{@code <}{@link AippInstLog}{@code >}。
+     */
+    List<AippInstLog> selectByLogIds(@Param("logIds") List<Long> logIds);
 }

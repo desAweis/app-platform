@@ -11,6 +11,7 @@ import modelengine.fit.jober.aipp.mapper.AppBuilderRuntimeInfoMapper;
 import modelengine.fit.jober.aipp.repository.AppBuilderRuntimeInfoRepository;
 import modelengine.fit.jober.aipp.serializer.impl.AppBuilderRuntimeInfoSerializer;
 import modelengine.fitframework.annotation.Component;
+import modelengine.fitframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,5 +44,18 @@ public class AppBuilderRuntimeInfoRepositoryImpl implements AppBuilderRuntimeInf
     @Override
     public void insertOne(AppBuilderRuntimeInfo info) {
         this.mapper.insertOne(this.serializer.serialize(info));
+    }
+
+    @Override
+    public List<Long> getExpiredRuntimeInfos(int expiredDays, int limit) {
+        return this.mapper.getExpiredRuntimeInfos(expiredDays, limit);
+    }
+
+    @Override
+    public void deleteRuntimeInfos(List<Long> runtimeInfoIds) {
+        if (CollectionUtils.isEmpty(runtimeInfoIds)) {
+            return;
+        }
+        this.mapper.deleteRuntimeInfos(runtimeInfoIds);
     }
 }

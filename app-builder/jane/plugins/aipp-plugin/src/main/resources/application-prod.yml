@@ -51,6 +51,9 @@ app-engine:
   file:
     upload:
       maxStorageRatio: 0.9
+  ttl:
+    businessData: 15
+    nonBusinessData: 1
 elsa:
   endpoint:
   elsaKey:
@@ -80,3 +83,12 @@ sensitive:
   replace:
     - pattern: "\"timestamp\":\"[^\"]+\""
       to: "\"timestamp\":\"***\""
+aipp:
+  instance:
+    log:
+      file:
+        path: /var/share/backup/aipp-instance-log/
+chat:
+  session:
+    file:
+      path: /var/share/backup/chat-session/

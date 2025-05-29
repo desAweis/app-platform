@@ -12,12 +12,13 @@ import modelengine.fit.task_new.mapper.MetaInstanceMapper;
 import modelengine.fit.task_new.repository.MetaInstanceRepository;
 import modelengine.fit.task_new.serializer.impl.MetaInstanceSerializer;
 import modelengine.fitframework.annotation.Component;
+import modelengine.fitframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Meta 实例数据库 Repo 层实现
+ * Meta 实例数据库 Repo 层实现。
  *
  * @author 邬涨财
  * @since 2025-03-31
@@ -58,5 +59,18 @@ public class MetaInstanceRepositoryImpl implements MetaInstanceRepository {
     @Override
     public long count(MetaInstanceCondition cond) {
         return this.metaInstanceMapper.count(cond);
+    }
+
+    @Override
+    public List<String> getExpiredInstanceIds(int expiredDays, int limit) {
+        return this.metaInstanceMapper.getExpiredInstanceIds(expiredDays, limit);
+    }
+
+    @Override
+    public void forceDelete(List<String> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+        this.metaInstanceMapper.forceDelete(ids);
     }
 }
