@@ -147,7 +147,7 @@
         task_instance_new
         WHERE
         instance_status != 'RUNNING'
-        AND update_at <![CDATA[ < ]]>
+        AND create_time <![CDATA[ < ]]>
         NOW()::TIMESTAMP - (#{expiredDays} || ' day')::INTERVAL
         LIMIT #{limit};
     </select>
