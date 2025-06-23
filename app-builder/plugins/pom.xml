@@ -20,7 +20,6 @@
         <module>aipp-http-call</module>
         <module>aipp-loop-tool</module>
         <module>aipp-memory</module>
-        <module>aipp-model-center</module>
         <module>aipp-northbound</module>
         <module>aipp-output-formatter</module>
         <module>aipp-prompt-builder</module>
