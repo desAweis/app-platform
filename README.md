@@ -25,9 +25,29 @@
 
 ---------
 
-## 安装数据库
+## 抢先体验
 
-### Windows 系统
+### 1. 前置条件
+
+| 名称  | 规格                         |
+|-----|----------------------------|
+| CPU | 2+ 核心                      |
+| 内存  | 4+ GB                      |
+| 软件  | 安装 Docker & Docker Compose |
+
+### 2. Docker Compose 快速启动
+
+```shell
+git clone https://github.com/ModelEngine-Group/app-platform.git
+cd app-platform/docker
+bash deploy.sh
+```
+
+## 源码编译启动
+
+### 安装数据库
+
+#### Windows 系统
 
 - 下载并安装 [PostgresSQL](https://www.postgresql.org/download/) （**支持版本 ≥ 14**）
 - 初始化数据。进入 `shell` 目录，使用 `bash` 工具执行 `build_win.sh`（当前不支持 `cmd` 执行，待规划）：
@@ -39,11 +59,11 @@ sh build_win.sh ${ip} ${port} ${username} ${password}
 
 其中参数 ip、port、username、password 分别指的是数据库主机地址、数据库端口、数据用户名、数据库密码。该文件会初始化数据库内置数据，以及人工表单功能所需的数据。
 
-### Linux 系统
+#### Linux 系统
 
 待规划
 
-## 后端环境配置
+### 后端环境配置
 
 开发环境配置
 
@@ -151,7 +171,7 @@ fit start -Dfit.profiles.active=prod
 
 ---------
 
-## 前端环境配置
+### 前端环境配置
 
 - 开发环境：`WebStorm`、`Visual Studio Code`
 
