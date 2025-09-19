@@ -52,7 +52,7 @@ services:
   app-builder:
     container_name: app-builder
     hostname: app-builder
-    image: modelengine/app-builder:${VERSION}
+    image: modelengine/app-builder:${APP_BUILDER_DEV_VERSION}
     depends_on:
       jade-db:
         condition: service_healthy

@@ -6,6 +6,20 @@ PLUGINS_DIR="${WORKSPACE}/../build/plugins"
 SHARED_DIR="${WORKSPACE}/../build/shared"
 
 cd ${WORKSPACE}
+
+export OS_TYPE=$(uname -s)
+if [[ "${OS_TYPE}" == "Darwin" ]]; then
+  export SED="sed -i '.bak' "
+else
+  export SED="sed -i"
+fi
+
+${SED} "s#APP_BUILDER_DEV_VERSION=.*#APP_BUILDER_DEV_VERSION=dev#g" ${WORKSPACE}/.env
+
+if [[ "${OS_TYPE}" == "Darwin" ]]; then
+  rm -f ${WORKSPACE}/.env\'.bak\'
+fi
+
 source .env
 
 # 临时启动容器
@@ -27,7 +41,7 @@ else
 fi
 
 # 提交镜像
-docker commit --change='ENTRYPOINT ["/opt/fit-framework/bin/start.sh"]' app-builder-tmp modelengine/app-builder:$VERSION
+docker commit --change='ENTRYPOINT ["/opt/fit-framework/bin/start.sh"]' app-builder-tmp modelengine/app-builder:dev
 
 docker stop app-builder-tmp
 docker rm app-builder-tmp
