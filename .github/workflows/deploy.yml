@@ -1,0 +1,22 @@
+name: Deploy
+
+on: workflow_dispatch  # 仅手动触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'  # 指定 Python 版本
+
+    - name: Install Paramiko
+      run: |
+        python -m pip install --upgrade pip
+        pip install paramiko
+
+    - name: SSH Login
+      run: |
+        set -eux
+        ping -c 3 ${{ secrets.MODEL_ENGINE_ECS_IP }}
