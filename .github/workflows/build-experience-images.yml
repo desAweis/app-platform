@@ -1,0 +1,84 @@
+name: Build Experience Images Job
+
+on: workflow_dispatch  # 仅手动触发
+
+env:
+  REGISTRY: crpi-62znuv6vkgxcv731.cn-hangzhou.personal.cr.aliyuncs.com
+  NAMESPACE: modelengine-hub
+  IMAGE_NAME: app-builder
+  VERSION: test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout app-platform
+      uses: actions/checkout@v4
+      with:
+        path: app-platform
+
+    - name: Checkout fit-framework
+      uses: actions/checkout@v4
+      with:
+        repository: ModelEngine-Group/fit-framework.git  # 目标仓库
+        ref: release-3.5.1             # 分支、标签或commit SHA
+        token: ${{ secrets.ME_FIT_TOKEN }}  # 个人访问令牌
+        path: fit-framework              # 存放路径
+
+    - name: Checkout elsa
+      uses: actions/checkout@v4
+      with:
+        repository: RonnyChan96/fit-framework.git  # 目标仓库
+        ref: main_experience             # 分支、标签或commit SHA
+        token: ${{ secrets.RONNY_FIT_TOKEN }}  # 个人访问令牌
+        path: elsa              # 存放路径
+
+    - name: Checkout pipeline
+      uses: actions/checkout@v4
+      with:
+        repository: ModelEngine-Group/pipeline.git  # 目标仓库
+        ref: main_experience             # 分支、标签或commit SHA
+        token: ${{ secrets.RONNY_FIT_TOKEN }}  # 个人访问令牌
+        path: pipeline              # 存放路径
+
+    - name: Set up JDK (for Maven build)
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        architecture: x64  # 构建时使用x64 JDK
+
+    - name: Build with Maven
+      working-directory: ./aacc-system
+      run: mvn clean install
+
+    - name: Download ARM JRE 17
+      run: |
+        mkdir -p ./aacc-system/java
+        curl -L "https://api.adoptium.net/v3/binary/latest/17/ga/linux/aarch64/jre/hotspot/normal/eclipse?project=jdk" \
+          | tar -xz -C ./aacc-system/java --strip-components=1
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to ACR
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.ALIYUN_ACR_USERNAME }}
+        password: ${{ secrets.ALIYUN_ACR_PASSWORD }}
+
+    - name: Build and push ARM64 image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./aacc-system
+        file: ./aacc-system/Dockerfile
+        build-args: PLATFORM=aarch64
+        platforms: linux/arm64
+        push: true
+        tags: |
+          ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
