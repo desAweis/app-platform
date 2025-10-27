@@ -53,9 +53,6 @@ services:
     container_name: app-builder
     hostname: app-builder
     image: ${REPO}/app-builder:dev-latest
-    depends_on:
-      jade-db:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://app-builder:8004/fit/check"]
       interval: 30s
@@ -146,10 +143,7 @@ services:
   web:
     container_name: web
     hostname: web
-    image: ${REPO}/jade-web:${VERSION}
-    depends_on:
-      app-builder:
-        condition: service_healthy
+    image: ${REPO}/jade-web:dev-latest
     networks:
       my-net:
         ipv4_address: 172.0.0.103
